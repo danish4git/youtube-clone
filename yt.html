@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/49e440d78e.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      body {
+        margin: 0px;
+      }
+      #vid {
+        flex: 6;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        height: 87vh;
+        overflow-y: scroll;
+        /* border: 1px solid red; */
+      }
+      #vid > div {
+        box-sizing: border-box;
+        margin: 5px;
+        width: 300px;
+      }
+      .main {
+        display: flex;
+      }
+      .side {
+        flex: 1;
+        height: 87vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        /* border: 1px solid red; */
+      }
+      img {
+        width: 100%;
+      }
+
+      /* navbar */
+      .nav {
+        height: 10vh;
+        box-shadow: rgba(173, 172, 172, 0.45) 0px 2px 5px 0px;
+        margin: 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* position: static; */
+        margin-bottom: 20px;
+      }
+      .nav > div > img {
+        width: 100px;
+        margin-left: 30px;
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+
+        line-height: 56px;
+      }
+
+      input[type="text"] {
+        width: 80%;
+        height: 33px;
+        padding: 0 10px;
+        color: #000;
+        border: 1px solid #bebebe;
+        margin-right: 0px;
+
+        border-radius: 2px 0 0 2px;
+        /* z-index: 2; */
+      }
+
+      input:focus {
+        border: 1.1px solid #1c62b9;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+      }
+
+      button {
+        width: 10%;
+        height: 35px;
+        border: 1px solid #bebebe;
+        border-left: 0;
+        top: 13px;
+        right: 0;
+        border-radius: 0px 2px 2px 0;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        background-color: #f0f0f0;
+        z-index: 1;
+        margin-left: 0px;
+        text-align: center;
+      }
+
+      button i {
+        opacity: 0.5;
+        transition: all 0.07s ease-in-out;
+      }
+
+      button:hover i {
+        opacity: 0.95;
+      }
+
+      button:hover {
+        background-color: #e4e4e4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15),
+          inset 0 0 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.07s ease-in-out;
+      }
+      i {
+        margin-left: 20px;
+        font-size: 20px;
+      }
+      .nav1 {
+        display: flex;
+        align-items: center;
+      }
+      span {
+        margin-left: 20px;
+      }
+      .side > div {
+        width: 100%;
+        padding: 10px;
+      }
+      .side > div:hover {
+        background-color: #e5e5e5;
+      }
+      .ricon {
+        display: flex;
+      }
+      .ricon > div {
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <div class="nav1">
+        <i class="fa fa-bars"></i>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvDIFmO74S_xtw6cXl0a_YFddjU_KQ64RPBA&usqp=CAU"
+          alt=""
+        />
+      </div>
+      <div class="search-bar">
+        <input type="text" id="video" placeholder="Search" />
+        <button onclick="showvideos()"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="ricon">
+        <div><i class="fas fa-video"></i></div>
+        <div><i class="fas fa-th"></i></div>
+        <div><i class="fas fa-bell"></i></div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="side">
+        <div><i class="fas fa-home"></i><span>Home</span></div>
+        <div><i class="far fa-compass"></i><span>Explore</span></div>
+        <div><i class="fas fa-history"></i><span>Subscriptions</span></div>
+      </div>
+      <div id="vid"></div>
+    </div>
+  </body>
+</html>
+<script>
+  let api = "AIzaSyAMnaTh7VcdfC7AzSp3eWnyly4BMQJfNzA";
+  let con = document.getElementById("vid");
+
+  async function showvideos() {
+    let inp = document.getElementById("video").value;
+    let res = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${inp}&type=video&key=${api}&maxResults=50`
+    );
+
+    let data = await res.json();
+    let allvideos = data.items;
+    console.log(allvideos);
+    results(allvideos);
+  }
+
+  const results = (arr) => {
+    con.textContent = "";
+    arr.map(({ snippet, id: { videoId } }) => {
+      // let {
+      //   id: { videoId },
+      //   // snippit: {
+      //   //   thumbnails: {
+      //   //     default: { url },
+      //   //   },
+      //   // },
+      // } = el;
+
+      // let iframe = document.createElement("iframe");
+      // iframe.src = `https://www.youtube.com/embed/${videoId}`;
+      // iframe.setAttribute("allowfullscreen", "true");
+
+      // con.append(iframe);
+
+      let div = document.createElement("div");
+      let img = document.createElement("img");
+      let title = document.createElement("p");
+      img.src = snippet.thumbnails.medium.url;
+      title.innerText = snippet.title;
+      div.append(img, title);
+      con.append(div);
+
+      let obj = {
+        snippet,
+        videoId,
+      };
+
+      div.onclick = () => {
+        vidpage(obj);
+      };
+    });
+  };
+
+  const vidpage = (obj) => {
+    localStorage.setItem("video", JSON.stringify(obj));
+    window.location.href = "mvid.html";
+  };
+</script>
