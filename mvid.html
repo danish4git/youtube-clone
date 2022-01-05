@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/49e440d78e.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      body {
+        margin: 0px;
+      }
+      .main {
+        display: flex;
+        box-sizing: border-box;
+        margin-left: 50px;
+        margin-right: 50px;
+      }
+      #lside {
+        flex: 6;
+        border: 1px solid red;
+      }
+      .rside {
+        flex: 3;
+        border: 1px solid red;
+      }
+      iframe {
+        width: 100%;
+        min-height: 520px;
+      }
+      /* navbar */
+      .nav {
+        height: 80px;
+        box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 8px 0px;
+        margin: 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* position: static; */
+        margin-bottom: 20px;
+      }
+      .nav > div > img {
+        width: 100px;
+        margin-left: 30px;
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+
+        line-height: 56px;
+      }
+
+      input[type="text"] {
+        width: 80%;
+        height: 33px;
+        padding: 0 10px;
+        color: #000;
+        border: 1px solid #bebebe;
+        margin-right: 0px;
+
+        border-radius: 2px 0 0 2px;
+        /* z-index: 2; */
+      }
+
+      input:focus {
+        border: 1.1px solid #1c62b9;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+      }
+
+      button {
+        width: 10%;
+        height: 35px;
+        border: 1px solid #bebebe;
+        border-left: 0;
+        top: 13px;
+        right: 0;
+        border-radius: 0px 2px 2px 0;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        background-color: #f0f0f0;
+        z-index: 1;
+        margin-left: 0px;
+        text-align: center;
+      }
+
+      button i {
+        opacity: 0.5;
+        transition: all 0.07s ease-in-out;
+      }
+
+      button:hover i {
+        opacity: 0.95;
+      }
+
+      button:hover {
+        background-color: #e4e4e4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15),
+          inset 0 0 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.07s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <div>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvDIFmO74S_xtw6cXl0a_YFddjU_KQ64RPBA&usqp=CAU"
+          alt=""
+        />
+      </div>
+      <div class="search-bar">
+        <input type="text" id="video" placeholder="Search" />
+        <button onclick="showvideos()"><i class="fas fa-search"></i></button>
+      </div>
+      <div></div>
+    </div>
+    <div class="main">
+      <div id="lside"></div>
+      <div class="rside"></div>
+    </div>
+  </body>
+</html>
+<script>
+  let lside = document.getElementById("lside");
+  let { videoId } = JSON.parse(localStorage.getItem("video"));
+
+  let iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube.com/embed/${videoId}`;
+  iframe.setAttribute("allowfullscreen", "true");
+  lside.append(iframe);
+</script>
